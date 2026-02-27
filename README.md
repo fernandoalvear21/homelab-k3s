@@ -64,3 +64,4 @@ Every time I modify a configuration file, I apply changes with:
 ```bash
 kubectl apply -f apps/app-name/
 ```
+Day 2: Created an Nginx service just to test and learn how to services and ingress work together. Created and error logbook in docks/errors.md to map errors and troubleshooting steps in this journey!

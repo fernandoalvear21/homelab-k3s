@@ -1,5 +1,7 @@
 ## Error mapping
+
 I created this page to document and map the error I encounter during this Kubernetes journey and how I managed to handle them. 
+
 ---
 
 ### Kluster up but not responding after engine restart
@@ -34,6 +36,7 @@ To fix this I had to merge the new context using the commad:
 k3d kubeconfig merge faf-homelab --kubeconfig-switch-context
 ```
 After that I restart my cluster and it was ready to go. 
+
 ---
 
 ## Service ingress error 
