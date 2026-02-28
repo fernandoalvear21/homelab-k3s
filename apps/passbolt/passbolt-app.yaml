@@ -18,7 +18,7 @@ spec:
         image: passbolt/passbolt:latest-ce
         env:
         - name: DATASOURCES_DEFAULT_HOST
-          value: "mariadb-service" # El nombre de tu servicio de DB
+          value: "mariadb-service" 
         - name: DATASOURCES_DEFAULT_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -29,9 +29,13 @@ spec:
         - name: DATASOURCES_DEFAULT_DATABASE
           value: "passbolt"
         - name: APP_FULL_BASE_URL
-          value: "http://passbolt.local:8080" 
+          value: "https://passbolt.local:2101" 
         - name: PASSBOLT_SSL_FORCE
           value: "false"
+        - name: PASSBOLT_SSL_SELF_SIGNED
+          value: "false"
+        - name: PASSBOLT_SSL_CONTENT_REWRITE
+          value: "true"
         ports:
         - containerPort: 80
 ---

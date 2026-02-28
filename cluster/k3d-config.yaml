@@ -11,6 +11,9 @@ volumes:
       - agent:*
       - server:*  
 ports:
-  - port: 8080:80
+  - port: 2100:80
+    nodeFilters:
+      - loadbalancer
+  - port: 2101:443
     nodeFilters:
       - loadbalancer

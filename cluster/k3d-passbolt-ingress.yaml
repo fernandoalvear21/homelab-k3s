@@ -3,8 +3,13 @@ kind: Ingress
 metadata:
   name: passbolt-ingress
   namespace: passbolt
+  # ELIMINA LAS ANOTACIONES DE TRAEFIK AQUÍ
 spec:
   ingressClassName: traefik
+  tls:
+  - hosts:
+    - passbolt.local
+    secretName: passbolt-tls-secret
   rules:
   - host: passbolt.local
     http:
@@ -16,3 +21,4 @@ spec:
             name: passbolt-service
             port:
               number: 80
+
