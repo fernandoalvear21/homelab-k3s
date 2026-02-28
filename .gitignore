@@ -1,0 +1,70 @@
+# Kubernetes
+kubeconfig
+kubeconfig.yaml
+*.kubeconfig
+*.config
+
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+
+# Dependencies
+node_modules/
+vendor/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ansible
+*.retry
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Secrets and sensitive data
+*.key
+*.pem
+*.crt
+secrets/
+credentials.yaml
+
+# Build outputs
+dist/
+build/
+*.o
+*.so
+*.out
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride

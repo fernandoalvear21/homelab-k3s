@@ -65,3 +65,10 @@ Every time I modify a configuration file, I apply changes with:
 kubectl apply -f apps/app-name/
 ```
 Day 2: Created an Nginx service just to test and learn how to services and ingress work together. Created and error logbook in docks/errors.md to map errors and troubleshooting steps in this journey!
+
+Day 3: Found out that in order to 'put down' a service I need to remove the service deployment and the ingress associated with that service. I can do it with this command i.e taking down my test nginx service. 
+```bash
+kubectl delete -f deployment-file.yaml
+kubectl delete ingress <ingress-name> -n <namespace> 
+```
+Also learned about persistent volumes, in order to keep my secrets and critical data from my password manager I needed to make the cluster configuration to be persistent so I define a volume on the cluster configuration to recreate it. 

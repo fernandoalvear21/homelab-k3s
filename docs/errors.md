@@ -44,4 +44,17 @@ I was creating an nginx service just to test how they work and interact, I creat
 So, I learned that in Kubernetes the **Namespace** isolation works like a logic barrier. An ingress on Namespace `A` can't see by default the services on Namespace `B` or any other rather than `A`. 
 In other to fix the error I just changed the namespace in my ingress file config and deleted the created ingress to apply the file with the correct config. After that it worked like a charm!
 
+---
 
+## Persistant volumen cluster creation error 
+Trying to create my cluster with a persistant volume to avoid losing my data if I delete or migrate my cluster I got the error creating the cluster:
+
+``` bash
+ERRO[0001] failed Cluster Creation: failed setup of server/agent node k3d-faf-homelab-server-0: failed to create node: runtime failed to create node 'k3d-faf-homelab-server-0': failed to create container for node 'k3d-faf-homelab-server-0': docker failed to create container 'k3d-faf-homelab-server-0': Error response from daemon: Duplicate mount point: /var/lib/rancher/k3s/storage 
+ERRO[0001] Failed to create cluster >>> Rolling Back    
+```
+and this was beacuse I'm using env variables in my project root and the cluster configuration file is in other directory, so in order to fix this I had to use this commando to keep the .env variables in memory while creating the cluster: 
+
+```bash
+export $(grep -v '^#' .env | xargs) && k3d cluster create --config cluster/k3d-config.yaml
+```
