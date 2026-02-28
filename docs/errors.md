@@ -58,3 +58,55 @@ and this was beacuse I'm using env variables in my project root and the cluster 
 ```bash
 export $(grep -v '^#' .env | xargs) && k3d cluster create --config cluster/k3d-config.yaml
 ```
+
+---
+
+## Issue: ERR_TOO_MANY_REDIRECTS / SSL Handshake Failed
+
+### Symptoms
+*   **Browser:** Displays `ERR_TOO_MANY_REDIRECTS` (Infinite Loop).
+*   **Browser:** Displays `404 Not Found` or `Mixed Content` errors.
+*   **Pod Logs:** `SSL_do_handshake() failed (SSL: error:0A000412:SSL routines::ssl/tls alert bad certificate:SSL alert number 42)`.
+
+---
+
+### 1. Root Cause Analysis
+This typically occurs when there is a mismatch between the **Ingress Controller (Traefik)** and the **Passbolt Pod** regarding SSL termination:
+1.  **Redirection Loop:** The Ingress handles SSL (Port 443) but talks to the Pod via HTTP (Port 80). If `PASSBOLT_SSL_FORCE` is `true`, the Pod rejects the HTTP request and tells the browser to redirect to HTTPS, creating a loop.
+2.  **Handshake Error:** If trying to use HTTPS between the Ingress and the Pod, the Ingress rejects the Pod's self-signed certificate (Alert 42).
+
+---
+
+### 2. Troubleshooting & Resolution
+
+#### A. Environment Variables (Deployment)
+To break the redirection loop while maintaining an HTTPS external URL, configure the following in the `Deployment`:
+
+
+| Variable | Value | Description |
+| :--- | :--- | :--- |
+| `APP_FULL_BASE_URL` | `https://passbolt.local:2101` | Must match the EXACT URL and PORT used in the browser. |
+| `PASSBOLT_SSL_FORCE` | `false` | Disables internal Nginx redirection (Ingress handles this). |
+| `PASSBOLT_SSL_CONTENT_REWRITE` | `true` | **Crucial:** Forces Passbolt to generate HTTPS links even if internal traffic is HTTP. |
+
+#### B. Ingress Configuration
+Ensure the Ingress is set to talk to the Service via **Port 80 (HTTP)** to avoid certificate validation issues inside the cluster.
+
+```yaml
+spec:
+  tls:
+  - hosts:
+    - passbolt.local
+    secretName: passbolt-tls-secret
+  rules:
+  - host: passbolt.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: passbolt-service
+            port:
+              number: 80 # Use HTTP internally
+```
