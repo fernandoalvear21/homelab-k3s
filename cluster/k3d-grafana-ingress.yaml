@@ -1,23 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: passbolt-ingress
-  namespace: passbolt
+  name: grafana-ingress
+  namespace: monitoring
 spec:
   ingressClassName: traefik
-  tls:
-  - hosts:
-    - passbolt.local
-    secretName: passbolt-tls-secret
   rules:
-  - host: passbolt.local
+  - host: grafana.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: passbolt-service
+            name: monitoring-stack-grafana
             port:
               number: 80
-

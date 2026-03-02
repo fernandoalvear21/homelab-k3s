@@ -1,0 +1,15 @@
+prometheus: 
+  prometheusSpec:
+    retention: 24h
+    resources: 
+      requests:
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 1Gi
