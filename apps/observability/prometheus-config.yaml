@@ -6,10 +6,35 @@ prometheus:
         memory: 256Mi
       limits:
         memory: 512Mi
+
 grafana:
   adminUser: admin
-  adminPassword: admin # <--- This is a one-time password, change it after the first login
+  adminPassword: admin
   persistence:
     enabled: true
     storageClassName: local-path
     size: 1Gi
+  
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'faf-provider' 
+          orgId: 1
+          folder: 'faf-homelab' 
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/faf-dashboards
+
+  dashboards:
+    faf-dashboards: 
+      k8s-completo:
+        gnetId: 15661
+        revision: 1
+        datasource: Prometheus
+      k3d-cluster:
+        gnetId: 315
+        revision: 3
+        datasource: Prometheus
