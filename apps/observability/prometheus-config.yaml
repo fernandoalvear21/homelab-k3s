@@ -8,7 +8,7 @@ prometheus:
         memory: 512Mi
 grafana:
   adminUser: admin
-  adminPassword: admin
+  adminPassword: admin # <--- This is a one-time password, change it after the first login
   persistence:
     enabled: true
     storageClassName: local-path

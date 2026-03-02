@@ -72,3 +72,5 @@ kubectl delete -f deployment-file.yaml
 kubectl delete ingress <ingress-name> -n <namespace> 
 ```
 Also learned about persistent volumes, in order to keep my secrets and critical data from my password manager I needed to make the cluster configuration to be persistent so I define a volume on the cluster configuration to recreate it. 
+
+Day 4: Passbolt is fully operational. Now I'll be installing and testing an observability stack to get controll of everything that could happen in my cluster. 

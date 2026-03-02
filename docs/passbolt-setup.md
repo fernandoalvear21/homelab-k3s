@@ -1,4 +1,4 @@
-## PAssblt setup 
+## Passbolt setup 
 
 Once the cluster is online fresh and new let's do a walkthrough on the process to enable passbolt service: 
 
