@@ -52,3 +52,4 @@ If I make a change or create new dashboard I can update bi:
 ```bash
 helm upgrade monitoring-stack prometheus-community/kube-prometheus-stack --namespace monitoring -f apps/observability/prometheus-config.yaml
 ```
+![Grafana Dashboard Page](images/grafana-dashboard.png)
