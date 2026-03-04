@@ -1,0 +1,19 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: faf-homelab
+servers: 1
+agents: 2
+image: rancher/k3s:v1.27.4-k3s1
+volumes:
+  - volume: ${LOCAL_STORAGE_PATH}:/var/lib/rancher/k3s/storage
+    nodeFilters:
+      - agent:*
+      - server:*  
+ports:
+  - port: 2100:80
+    nodeFilters:
+      - loadbalancer
+  - port: 2101:443
+    nodeFilters:
+      - loadbalancer
