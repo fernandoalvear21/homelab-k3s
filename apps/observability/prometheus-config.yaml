@@ -6,7 +6,8 @@ prometheus:
         memory: 256Mi
       limits:
         memory: 512Mi
-
+    externalLabels:
+      cluster: faf-homelab
 grafana:
   adminUser: admin
   adminPassword: admin
@@ -33,8 +34,4 @@ grafana:
       k8s-completo:
         gnetId: 15661
         revision: 1
-        datasource: Prometheus
-      k3d-cluster:
-        gnetId: 315
-        revision: 3
         datasource: Prometheus
