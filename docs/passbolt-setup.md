@@ -35,6 +35,9 @@ In order to be able to ensure ssl connection we need to create out tls secret us
 kubectl create secret tls passbolt-tls-secret --key passbolt.local.key --cert passbolt-local.crt -n passbolt
 ```
 
+We can see that our secrets and pods are up: 
+![MariaDB and passbolt pods](images/passbolt-pods.png)
+
 #### 6. Create passbolt service
 Now we create our passbolt service using our config file
 ```bash
@@ -47,8 +50,12 @@ After the service is created, we need to create an ingress in order to access to
 kubectl apply -f cluster/k3d-passbolt-ingress.yaml
 ```
 
+![Passbolt Ingress](images/passbolt-ingress.png)
+
 ### 8. Create passbolt admin user 
 ```bash
 kubectl exec -it <passbolt-pod-name> -- su -c "bin/cake passbolt register_user -u <email> -f <firstname> -l <lastname> -r admin" -s /bin/bash www-data
 ```
+
+![Passbolt Login](images/passbolt-login.png)
 

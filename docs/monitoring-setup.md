@@ -46,3 +46,10 @@ kubectl apply -f cluster/k3d-grafana-ingress.yaml
 
 Now you can go to your monitoring GUI, in my case is in: `http://grafana.local:2100/`
 
+### 7. Update prometheus config
+
+If I make a change or create new dashboard I can update bi: 
+```bash
+helm upgrade monitoring-stack prometheus-community/kube-prometheus-stack --namespace monitoring -f apps/observability/prometheus-config.yaml
+```
+![Grafana Dashboard Page](images/grafana-dashboard.png)

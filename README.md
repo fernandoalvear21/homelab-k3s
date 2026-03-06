@@ -1,4 +1,6 @@
-# 🛸 My Homelab: Kubernetes with k3s and k3d
+# 🗄️ My Homelab: Kubernetes with k3s and k3d
+![Homelab Banner](docs/images/homelab-banner.png)
+
 This project documents my journey building a personal Homelab from scratch, optimized to run on a laptop (Mac) with minimal resource impact.
 
 ## Homelab Purpose
@@ -6,6 +8,43 @@ This project leads me to implement and understand application management using K
 
 ## 🏗️ Selected Architecture
 For this lab, I have chosen the following technology stack based on efficiency:
+
+```mermaid
+graph TD
+    subgraph Host["💻 Mac Host (Local)"]
+        subgraph Docker["🐳 Docker Engine"]
+            subgraph K3D["🗄️ k3d Cluster homelab"]
+                subgraph Nodes["Nodes"]
+                    S1["Control Plane (Server)"]
+                    A1["Worker Node (Agent 1)"]
+                    A2["Worker Node (Agent 2)"]
+                end
+                
+                LB["Port Forward (2100:80)"]
+                RB["Port Forward (2101:443)"]
+            end
+        end
+    end
+
+    %% Workloads
+    A1 --- PB["🔑 Passbolt"]
+    A2 --- GF["📊 Grafana Stack"]
+
+    %% Styling
+    classDef host fill:#0d1117,stroke:#30363d,color:#c9d1d9;
+    classDef docker fill:#161b22,stroke:#58a6ff,color:#58a6ff,stroke-width:2px;
+    classDef k3d fill:#21262d,stroke:#30363d,color:#8b949e,stroke-dasharray: 5 5;
+    classDef nodes fill:#238636,stroke:#2ea043,color:#fff;
+    classDef apps fill:#1f6feb,stroke:#388bfd,color:#fff;
+    classDef ingress fill:#238678,stroke:#2ea043,color:#fff;
+
+    class Host host;
+    class Docker docker;
+    class K3D k3d;
+    class S1,A1,A2, nodes;
+    class LB,RB, ingress;
+    class PB,GF apps;
+```
 
 1. k3s (Kubernetes distribution): A lightweight version of Kubernetes certified by the CNCF. It removes unnecessary components and external dependencies to reduce RAM consumption to less than 512MB per node.
 2. k3d (Orchestrator): Instead of using Virtual Machines (VMs) that reserve fixed RAM, k3d runs k3s nodes as Docker containers. This allows the host operating system to share resources dynamically.
@@ -74,3 +113,5 @@ kubectl delete ingress <ingress-name> -n <namespace>
 Also learned about persistent volumes, in order to keep my secrets and critical data from my password manager I needed to make the cluster configuration to be persistent so I define a volume on the cluster configuration to recreate it. 
 
 Day 4: Passbolt is fully operational. Now I'll be installing and testing an observability stack to get controll of everything that could happen in my cluster. 
+
+Day 5: Deployed and configured grafana. Set up different dashboards to know everything that's happening in my cluster. 
