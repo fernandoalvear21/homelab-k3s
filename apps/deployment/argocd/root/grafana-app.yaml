@@ -5,22 +5,25 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: 'https://prometheus-community.github.io/helm-charts'
-    chart: kube-prometheus-stack
-    targetRevision: 69.3.1
-    
-    helm:
-      valueFiles:
-        - https://raw.githubusercontent.com/fernandoalvear21/homelab-k3s/refs/heads/develop/apps/observability/prometheus-config.yaml
-  
+  sources: 
+    - repoURL: 'https://prometheus-community.github.io/helm-charts'
+      chart: kube-prometheus-stack
+      targetRevision: 2.4.3
+      helm:
+        valueFiles:
+          - $values/apps/observability/prometheus-config.yaml
+    - repoURL: 'https://github.com/fernandoalvear21/homelab-k3s'
+      targetRevision: develop
+      ref: values 
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
-  
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true 
+      - SkipDryRunOnMissingResource=true
+
